@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record id="model_tranport_package_report" model="ir.actions.server">
+            <field name="name">Transport Package Report</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.print_transport_excel()
+            </field>
+        </record>
+    
+        <record id="model_tranport_package_report_form" model="ir.actions.server">
+            <field name="name">Transport Package Report</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.print_transport_excel()
+            </field>
+        </record>
+    
+        <record id="inherited_view_picking_form" model="ir.ui.view">
+            <field name="name">inherited.view_picking_form.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='note']" position="after">
+                    <page name="Transport Packages">
+                        <field name="product_packages_ids">
+                            <tree  editable="bottom">
+                                <field name="product_id" required="1"/>
+                                <field name="contained_quantity" required="1"/>
+                                <field name="uom_id" required="1"/>
+<!--                                <field name="is_so"/>-->
+<!--                                <field name="is_po"/>-->
+<!--                                <field name="company_id"/>-->
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="action_picking_tree_incoming_outgoing" model="ir.actions.act_window">
+            <field name="name">Transport Package Repor</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+            <field name="domain">[('picking_type_code','in',['incoming','outgoing'])]</field>
+            <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0]}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+        
+        <menuitem id="action_picking_tree_all_menu" name="Transport Package Report" parent="stock.menu_warehouse_report"
+                  action="action_picking_tree_incoming_outgoing" sequence="20"
+                  groups="stock.group_stock_manager,stock.group_stock_user"/>
+        
+    </data>
+</odoo>
