@@ -7,11 +7,11 @@
     "license": "OPL-1",
     'summary': 'Transport Package Report',
     'description': """ Transport Package Report
-use for submit packaging details to the government """,
-    'author': 'Ativeg Technology',
-    'support': 'mayur@ativeg.tech',
-    'maintainer': 'Mayur Nagar <mayur@ativeg.tech>',
-    'website': 'https://ativeg.tech',
+use for submit packaging details """,
+    'author': 'ERP Partner OÜ',
+    'support': 'info@erppartner.ee',
+    'maintainer': 'ERP Partner OÜ <info@erppartner.ee>',
+    'website': 'https://www.erppartner.ee',
     'depends': ['stock'],
     'data': [
         "security/ir.model.access.csv",
